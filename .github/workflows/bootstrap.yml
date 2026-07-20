@@ -13,7 +13,7 @@ permissions:
 
 jobs:
   unpack:
-    if: ${{ github.actor != 'github-actions[bot]' && hashFiles('.bootstrap/source.part.00') != '' }}
+    if: ${{ github.actor != 'github-actions[bot]' }}
     runs-on: ubuntu-latest
     steps:
       - name: Checkout source branch
@@ -26,6 +26,7 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
+          test -f .bootstrap/source.part.00
           cat .bootstrap/source.part.* > /tmp/vestaland-source.b64
           base64 --decode /tmp/vestaland-source.b64 > /tmp/vestaland-source.tar.gz
           echo "923c2fb83ecd8b6d01092f72d6f35d48968baff2b4b486b77ad791fa082c0913  /tmp/vestaland-source.tar.gz" | sha256sum -c -
